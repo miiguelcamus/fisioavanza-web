@@ -383,3 +383,10 @@ footer li{margin-bottom:10px}
   .gonio{width:64vw;right:6px;bottom:96px;opacity:.75}
   .c2{background-size:auto}
 }
+
+@media print{
+  .capas,.gonio{display:none}
+  [data-rv]>*,.hcon>*{opacity:1!important;transform:none!important;animation:none!important}
+  .sec.dark,.phead,.close,footer{background:#fff!important;color:#000!important}
+  .sec.dark h2,.sec.dark h3,.phead h1,.close h2{color:#000!important}
+}
