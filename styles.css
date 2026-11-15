@@ -72,7 +72,7 @@ section[id]{scroll-margin-top:84px}
 .hero:after{content:"";position:absolute;inset:0;
   background:linear-gradient(100deg,rgba(4,43,40,.95) 0%,rgba(4,43,40,.88) 30%,rgba(4,43,40,.55) 60%,rgba(4,43,40,.22) 100%),
              linear-gradient(0deg,rgba(4,43,40,.72) 0%,rgba(4,43,40,0) 42%)}
-.hcon{position:relative;z-index:2;width:100%;max-width:var(--mx);margin:0 auto;padding:120px 26px 0;color:#fff}
+.hcon{position:relative;z-index:2;width:100%;max-width:var(--mx);margin:0 auto;padding:102px 26px 0;color:#fff}
 .hcon h1{color:#fff}
 .hcon h1 u{text-decoration:none;color:var(--lima);white-space:nowrap}
 .hcon .lead{color:rgba(255,255,255,.84);margin-top:26px}
@@ -157,8 +157,8 @@ section[id]{scroll-margin-top:84px}
 .rev:last-child{padding-right:0}
 .rev .st{color:var(--lima-d);letter-spacing:3px;font-size:14px;margin-bottom:14px}
 .rev q{quotes:none;display:block;font-size:17px;line-height:1.55;color:var(--ink)}
-.rev footer{font-family:Archivo,sans-serif;font-size:14px;color:var(--ink3);margin-top:16px}
-.rev footer b{color:var(--ink);font-weight:600;display:block;font-size:15px}
+.rev .by{font-family:Archivo,sans-serif;font-size:14px;color:var(--ink3);margin-top:16px}
+.rev .by b{color:var(--ink);font-weight:600;display:block;font-size:15px}
 
 /* contacto */
 .ccs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
