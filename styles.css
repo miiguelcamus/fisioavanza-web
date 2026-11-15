@@ -377,15 +377,16 @@ footer li{margin-bottom:10px}
 /* ══════════════════════════════════════════════════════════════
    RESGUARDO DE CITA
    ══════════════════════════════════════════════════════════════ */
-.tk-wrap{position:sticky;top:96px;margin-bottom:18px;
+.bk aside{position:sticky;top:96px}
+.tk-wrap{margin-bottom:18px;
   filter:drop-shadow(0 16px 26px rgba(21,33,31,.24)) drop-shadow(0 4px 7px rgba(21,33,31,.16))}
 .tk{position:relative;background:#fdfbf3;color:#1b1b19;border-radius:5px 5px 0 0;
-  transform:rotate(-.8deg);max-width:296px;font-variant-numeric:tabular-nums;padding-bottom:30px;
+  max-width:296px;font-variant-numeric:tabular-nums;padding-bottom:18px;
   /* borde inferior rasgado */
   clip-path:polygon(0 0,100% 0,100% calc(100% - 11px),95.23% calc(100% - 2.8px),91.45% calc(100% - 12.8px),89.06% calc(100% - 9.1px),86.4% calc(100% - 22.9px),82.27% calc(100% - 12.7px),78.06% calc(100% - 29.8px),74.3% calc(100% - 16.5px),69.38% calc(100% - 11.8px),66.28% calc(100% - 15.2px),63.33% calc(100% - 7.4px),59.18% calc(100% - 15.4px),55.25% calc(100% - 8.9px),52.28% calc(100% - 19.1px),49.94% calc(100% - 24.8px),46.22% calc(100% - 19.1px),43.11% calc(100% - 10.6px),38.78% calc(100% - 14.8px),36.46% calc(100% - 18.5px),31.97% calc(100% - 9.8px),27.22% calc(100% - 3.1px),22.29% calc(100% - 6.9px),20.22% calc(100% - 19.0px),15.3% calc(100% - 4.4px),10.34% calc(100% - 18.0px),5.41% calc(100% - 12.0px),3.18% calc(100% - 13.5px),0.0% calc(100% - 21.2px),0% calc(100% - 10px))}
 /* fibra del papel asomando en el corte */
-.tk:after{content:"";position:absolute;left:0;right:0;bottom:0;height:38px;pointer-events:none;
-  background:linear-gradient(180deg,rgba(27,27,25,0),rgba(27,27,25,.14));
+.tk:after{content:"";position:absolute;left:0;right:0;bottom:0;height:24px;pointer-events:none;
+  background:linear-gradient(180deg,rgba(27,27,25,0),rgba(27,27,25,.09));
   -webkit-mask-image:linear-gradient(180deg,transparent,#000);mask-image:linear-gradient(180deg,transparent,#000)}
 .tk-cab{padding:20px 20px 15px;display:flex;flex-direction:column;gap:4px;text-align:center}
 .tk-cab span{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(27,27,25,.5)}
@@ -407,5 +408,5 @@ footer li{margin-bottom:10px}
     transparent 6px 10px,#1b1b19 10px 13px,transparent 13px 14px,#1b1b19 14px 15px,transparent 15px 19px);
   opacity:.82}
 .tk-pie span{font-size:11px;line-height:1.55;color:rgba(27,27,25,.5);display:block}
-@media(max-width:1000px){.tk-wrap{position:static;margin-bottom:16px}.tk{transform:none}}
-@media(prefers-reduced-motion:reduce){.tk{transform:none}.tk-cuerpo dd.sella{animation:none}}
+@media(max-width:1000px){.bk aside{position:static}.tk-wrap{margin-bottom:16px}}
+@media(prefers-reduced-motion:reduce){.tk-cuerpo dd.sella{animation:none}}
