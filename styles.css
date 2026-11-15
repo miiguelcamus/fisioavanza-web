@@ -13,7 +13,7 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);
+body{margin:0;background:transparent;color:var(--ink);
   font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
   font-size:17px;line-height:1.6;font-optical-sizing:auto;overflow-x:hidden}
 img{max-width:100%;display:block}
@@ -36,7 +36,7 @@ p:last-child{margin-bottom:0}
 section[id]{scroll-margin-top:84px}
 
 /* ───────── cabecera ───────── */
-.top{position:sticky;top:0;z-index:60;background:var(--bg);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:0;z-index:60;background:rgba(237,241,239,.78);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid rgba(21,33,31,.07)}
 .tin{max-width:var(--mx);margin:0 auto;padding:11px 26px;display:flex;align-items:center;gap:26px}
 /* el logo original es una foto con mucho blanco: se recorta al wordmark */
 .brand{display:block;flex-shrink:0;position:relative;width:120px;height:45px;overflow:hidden}
@@ -102,7 +102,7 @@ section[id]{scroll-margin-top:84px}
 
 /* ───────── secciones ───────── */
 .sec{padding:92px 0}
-.sec.pale{background:var(--pale)}
+.sec.pale{background:rgba(222,232,228,.62)}
 .sec.dark{background:var(--deep);color:#fff}
 .sec.dark h2,.sec.dark h3{color:#fff}
 .sec.dark .sm{color:rgba(255,255,255,.66)}
@@ -148,7 +148,7 @@ section[id]{scroll-margin-top:84px}
 
 /* mosaico */
 .mos{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
-.mos figure{margin:0;overflow:hidden;background:var(--pale)}
+.mos figure{margin:0;overflow:hidden;background:rgba(222,232,228,.6)}
 .mos img{width:100%;height:100%;object-fit:cover}
 .mos .a{grid-column:span 3;aspect-ratio:3/2}
 .mos .b{grid-column:span 3;aspect-ratio:3/2}
@@ -183,7 +183,7 @@ section[id]{scroll-margin-top:84px}
 .hor .hr b{font-family:Archivo,sans-serif;font-weight:600}
 .hor .hr span{color:var(--ink2);text-align:right}
 .hor .hr.cl span{color:var(--ink3)}
-.hor .hr.now{background:var(--pale)}
+.hor .hr.now{background:rgba(222,232,228,.8)}
 .mapbox{overflow:hidden;border:1px solid var(--line);border-radius:var(--r);height:100%;min-height:340px}
 .mapbox iframe{width:100%;height:100%;border:0;display:block}
 
@@ -213,7 +213,7 @@ section[id]{scroll-margin-top:84px}
 .bk{display:grid;grid-template-columns:1.3fr .7fr;gap:30px;align-items:start}
 .bk>*{min-width:0}
 .bx{border:1px solid var(--line);border-radius:var(--r);padding:30px;min-width:0}
-.bx.fill{background:var(--pale);border-color:transparent}
+.bx.fill{background:rgba(222,232,228,.72);border-color:transparent}
 .paso-n{font-family:Archivo,sans-serif;font-weight:600;font-size:14px;color:var(--ink3);display:block;margin:28px 0 11px}
 .paso-n:first-of-type{margin-top:0}
 .paso-n b{color:var(--ink);font-weight:600}
@@ -264,15 +264,7 @@ footer li{margin-bottom:10px}
 .fbot{border-top:1px solid rgba(255,255,255,.16);margin-top:46px;padding-top:24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:Archivo,sans-serif;font-size:13px;color:rgba(255,255,255,.44)}
 
 /* entrada del hero: un solo momento, al cargar */
-.hcon>*{opacity:0;transform:translateY(14px);animation:up .85s cubic-bezier(.19,.9,.3,1) forwards}
-.hcon>*:nth-child(2){animation-delay:.1s}
-.hcon>*:nth-child(3){animation-delay:.18s}
-.hcon>*:nth-child(4){animation-delay:.26s}
-@keyframes up{to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){
-  .hcon>*{animation:none;opacity:1;transform:none}
-  *{transition-duration:.01ms!important}
-}
+
 
 /* ───────── responsive ───────── */
 @media(max-width:1000px){
@@ -313,4 +305,81 @@ footer li{margin-bottom:10px}
   .mos .a,.mos .b{grid-column:span 2}
   .mos .c,.mos .d,.mos .e{grid-column:span 1}
   .brand img{height:37px}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CAPAS DE TEJIDO
+   El fondo no es un color: son estratos en corte, como lo que se
+   ve en una ecografía, con arcos de recorrido articular detrás.
+   Cada capa se mueve a distinta velocidad al bajar.
+   ══════════════════════════════════════════════════════════════ */
+.capas{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:var(--bg)}
+.capas .c{position:absolute;inset:-14% -6%;will-change:transform;backface-visibility:hidden}
+
+/* 1 · masa de fondo, teñida con sus dos colores */
+.c1{background:
+  radial-gradient(58% 42% at 10% 4%, rgba(14,155,148,.17), transparent 70%),
+  radial-gradient(48% 38% at 94% 18%, rgba(156,210,47,.13), transparent 72%),
+  radial-gradient(76% 46% at 46% 106%, rgba(4,43,40,.14), transparent 72%)}
+
+/* 2 · estratos de tejido */
+.c2{background:repeating-linear-gradient(178.4deg,
+    rgba(4,43,40,.060) 0 1px,
+    rgba(4,43,40,0)    1px 6px,
+    rgba(4,43,40,.028) 6px 7px,
+    rgba(4,43,40,0)    7px 13px,
+    rgba(10,117,112,.040) 13px 14px,
+    rgba(4,43,40,0)    14px 26px);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 14%,#000 70%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,#000 14%,#000 70%,transparent 100%)}
+
+/* 3 · arcos de recorrido */
+.c3{background-repeat:no-repeat;background-position:52% 26%;background-size:150% auto;opacity:.85;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 760'%3E%3Cg fill='none' stroke='%230a7570' stroke-width='1.1'%3E%3Cpath d='M-140 700 A 820 820 0 0 1 1340 700' stroke-opacity='.13'/%3E%3Cpath d='M40 700 A 640 640 0 0 1 1160 700' stroke-opacity='.10'/%3E%3Cpath d='M220 700 A 460 460 0 0 1 980 700' stroke-opacity='.08'/%3E%3Cpath d='M400 700 A 280 280 0 0 1 800 700' stroke-opacity='.06'/%3E%3C/g%3E%3C/svg%3E")}
+
+/* 4 · grano: quita el plano vectorial */
+.c4{opacity:.05;mix-blend-mode:multiply;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ── goniómetro: abre su recorrido al cargar ── */
+.gonio{position:absolute;right:clamp(-70px,-3vw,0px);bottom:-46px;width:min(54vw,640px);z-index:1;pointer-events:none}
+.gonio .ej{fill:none;stroke:rgba(255,255,255,.26);stroke-width:1.1}
+.gonio .tk{stroke:rgba(255,255,255,.3);stroke-width:1.1}
+.gonio .rad{fill:none;stroke:var(--lima);stroke-width:2;stroke-opacity:.95;stroke-linecap:round;
+  transform-box:fill-box;transform-origin:0% 100%}
+.gonio .arc{fill:none;stroke:var(--lima);stroke-width:3;stroke-linecap:round;stroke-opacity:.9;
+  pathLength:1;stroke-dasharray:1;stroke-dashoffset:1}
+.gonio .hub{fill:var(--lima)}
+.gonio .deg{fill:rgba(255,255,255,.72);font:600 13px Archivo,sans-serif;letter-spacing:.02em}
+.on-load .gonio .arc{animation:trazo 1.45s .45s cubic-bezier(.2,.85,.25,1) forwards}
+.on-load .gonio .rad{animation:barrido 1.45s .45s cubic-bezier(.2,.85,.25,1) forwards}
+.on-load .gonio .deg{opacity:0;animation:aparece .6s 1.5s ease forwards}
+@keyframes trazo{to{stroke-dashoffset:0}}
+@keyframes barrido{from{transform:rotate(0deg)}to{transform:rotate(-54deg)}}
+@keyframes aparece{to{opacity:1}}
+
+/* ── entrada escalonada ── */
+[data-rv]>*{opacity:0;transform:translateY(26px) rotate(.4deg);transform-origin:0% 100%;
+  transition:opacity .72s cubic-bezier(.2,.78,.28,1),transform .72s cubic-bezier(.2,.78,.28,1);
+  transition-delay:calc(var(--i,0)*70ms)}
+[data-rv].in>*{opacity:1;transform:none}
+.hcon>*{opacity:0;transform:translateY(20px)}
+.on-load .hcon>*{animation:sube .9s cubic-bezier(.19,.9,.3,1) forwards}
+.on-load .hcon>*:nth-child(1){animation-delay:.08s}
+.on-load .hcon>*:nth-child(2){animation-delay:.2s}
+.on-load .hcon>*:nth-child(3){animation-delay:.32s}
+.on-load .hcon>*:nth-child(4){animation-delay:.44s}
+@keyframes sube{to{opacity:1;transform:none}}
+
+@media (prefers-reduced-motion:reduce){
+  .hcon>*,[data-rv]>*{opacity:1!important;transform:none!important;animation:none!important}
+  .gonio .arc{stroke-dashoffset:0;animation:none}
+  .gonio .rad{transform:rotate(-54deg);animation:none}
+  .gonio .deg{opacity:1;animation:none}
+  .capas .c{transform:none!important}
+  *{transition-duration:.01ms!important}
+}
+@media(max-width:700px){
+  .gonio{width:86vw;right:-26vw;bottom:-30px;opacity:.55}
+  .c2{background-size:auto}
 }
