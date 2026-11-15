@@ -3,9 +3,7 @@ var $=function(s,r){return (r||document).querySelector(s)},
     $$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
 var TEL='34624321022';
 
-/* ---- cabecera ---- */
-var top=$('.top');
-if(top)addEventListener('scroll',function(){top.classList.toggle('sc',scrollY>8)},{passive:true});
+/* menu movil */
 var bg=$('.burger'),mm=$('.mm');
 if(bg&&mm){
   bg.addEventListener('click',function(){
@@ -13,17 +11,12 @@ if(bg&&mm){
     bg.setAttribute('aria-expanded',o);mm.classList.toggle('on',o);
     mm.setAttribute('aria-hidden',!o);document.body.style.overflow=o?'hidden':'';
   });
-  $$('.mm a').forEach(function(a){a.addEventListener('click',function(){if(bg.getAttribute('aria-expanded')==='true')bg.click()})});
+  $$('.mm a').forEach(function(a){a.addEventListener('click',function(){
+    if(bg.getAttribute('aria-expanded')==='true')bg.click();
+  })});
 }
 
-/* ---- aparicion ---- */
-var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){
-  es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})
-},{threshold:.06,rootMargin:'0px 0px -40px'}):null;
-$$('.rv').forEach(function(el,i){if(io){el.style.transitionDelay=(i%3)*70+'ms';io.observe(el)}else el.classList.add('in')});
-
-/* ---- horario ---- */
-/* lunes=0 ... domingo=6 ; tramos en minutos */
+/* horario en vivo. lunes=0 ... domingo=6, tramos en minutos */
 var H=[[540,840,960,1200],[540,840,960,1200],[540,840,960,1200],[540,840,960,1200],[540,840,960,1200],null,null];
 var DIAS=['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
 function hhmm(m){var h=Math.floor(m/60),x=m%60;return h+':'+(x<10?'0':'')+x}
@@ -31,27 +24,26 @@ function hhmm(m){var h=Math.floor(m/60),x=m%60;return h+':'+(x<10?'0':'')+x}
 function estado(){
   var d=new Date(),wd=(d.getDay()+6)%7,m=d.getHours()*60+d.getMinutes(),h=H[wd];
   if(h){
-    if(m>=h[0]&&m<h[1])return{ab:true,txt:'Hasta las '+hhmm(h[1])};
-    if(m>=h[2]&&m<h[3])return{ab:true,txt:'Hasta las '+hhmm(h[3])};
+    if(m>=h[0]&&m<h[1])return{ab:true,txt:'Abierto hasta las '+hhmm(h[1])};
+    if(m>=h[2]&&m<h[3])return{ab:true,txt:'Abierto hasta las '+hhmm(h[3])};
     if(m<h[0])return{ab:false,txt:'Abre hoy a las '+hhmm(h[0])};
     if(m>=h[1]&&m<h[2])return{ab:false,txt:'Abre a las '+hhmm(h[2])};
   }
   for(var i=1;i<=7;i++){var w=(wd+i)%7;if(H[w])return{ab:false,txt:'Abre el '+DIAS[w]+' a las '+hhmm(H[w][0])}}
   return{ab:false,txt:'Cerrado'};
 }
-var e=estado(),dot=$('[data-open]'),lbl=$('[data-openlbl]'),hs=$('[data-openh]');
-if(dot){dot.classList.toggle('off',!e.ab)}
-if(lbl){lbl.textContent=e.ab?'Abierto ahora':'Cerrado ahora'}
-if(hs){hs.textContent=e.txt}
-var hoy=(new Date().getDay()+6)%7,hr=$('[data-hor] .hr[data-d="'+hoy+'"]');
-if(hr&&H[hoy])hr.classList.add('now');
+var e=estado(),dot=$('[data-open]'),hs=$('[data-openh]');
+if(dot)dot.classList.toggle('off',!e.ab);
+if(hs)hs.textContent=e.txt;
+var hoyw=(new Date().getDay()+6)%7,hr=$('[data-hor] .hr[data-d="'+hoyw+'"]');
+if(hr&&H[hoyw])hr.classList.add('now');
 
-/* ---- reserva ---- */
+/* reserva */
 var form=$('[data-form]');
 if(form){
-  var sel={serv:'Fisioterapia · primera visita',pro:'Me da igual',dia:'',hora:'',ymd:''};
-
+  var sel={serv:'Fisioterapia, primera visita',pro:'Me da igual',dia:'',hora:'',ymd:''};
   function pinta(k){var b=$('[data-r="'+k+'"]');if(b)b.textContent=sel[k]||'—'}
+
   ['serv','pro'].forEach(function(k){
     var g=$('[data-g="'+k+'"]');if(!g)return;
     $$('button',g).forEach(function(b){
@@ -64,22 +56,23 @@ if(form){
     pinta(k);
   });
 
-  /* dias: 21 proximos, sin sabados ni domingos */
   var MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var MESL=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   var DL=['L','M','X','J','V','S','D'];
-  var days=$('[data-days]'),hoyd=new Date();hoyd.setHours(0,0,0,0);
+  var days=$('[data-days]'),hoy=new Date();hoy.setHours(0,0,0,0);
   var primero=null;
   for(var i=0;i<21;i++){
-    var d=new Date(hoyd.getTime()+i*86400000),wd=(d.getDay()+6)%7;
+    var d=new Date(hoy.getTime()+i*86400000),wd=(d.getDay()+6)%7;
     if(!H[wd])continue;
     var b=document.createElement('button');
     b.type='button';b.className='day';
     b.dataset.ymd=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
-    b.dataset.lbl=(i===0?'hoy':(i===1?'mañana':DIAS[wd]))+' '+d.getDate()+' de '+['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][d.getMonth()];
+    b.dataset.lbl=(i===0?'hoy':(i===1?'mañana':DIAS[wd]))+' '+d.getDate()+' de '+MESL[d.getMonth()];
     b.innerHTML='<small>'+DL[wd]+'</small><b>'+d.getDate()+'</b><i>'+MES[d.getMonth()]+'</i>';
     b.addEventListener('click',function(){
       $$('.day',days).forEach(function(x){x.classList.remove('on')});
-      this.classList.add('on');sel.dia=this.dataset.lbl;sel.ymd=this.dataset.ymd;pinta('dia');horas();
+      this.classList.add('on');sel.dia=this.dataset.lbl;sel.ymd=this.dataset.ymd;
+      pinta('dia');horas();
     });
     days.appendChild(b);
     if(!primero)primero=b;
@@ -90,7 +83,8 @@ if(form){
     var cont=$('[data-slots]');if(!cont)return;
     cont.innerHTML='';sel.hora='';pinta('hora');
     var paso=(sel.serv.indexOf('Pilates')===0)?60:30;
-    var tramos=[[540,840],[960,1200]],ahora=new Date(),hoyYmd=ahora.getFullYear()+'-'+(ahora.getMonth()+1)+'-'+ahora.getDate();
+    var tramos=[[540,840],[960,1200]],ahora=new Date();
+    var hoyYmd=ahora.getFullYear()+'-'+(ahora.getMonth()+1)+'-'+ahora.getDate();
     var lim=(sel.ymd===hoyYmd)?(ahora.getHours()*60+ahora.getMinutes()+90):-1;
     tramos.forEach(function(t){
       for(var m=t[0];m+paso<=t[1];m+=paso){
@@ -104,7 +98,7 @@ if(form){
         cont.appendChild(b);
       }
     });
-    if(!cont.children.length)cont.innerHTML='<p style="color:var(--ink3);font-size:15px;margin:0">Hoy ya no quedan huecos. Elige otro d&iacute;a.</p>';
+    if(!cont.children.length)cont.innerHTML='<p class="sm" style="margin:0">Hoy ya no quedan huecos. Elige otro día.</p>';
   }
 
   form.addEventListener('submit',function(ev){
