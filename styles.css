@@ -410,3 +410,16 @@ footer li{margin-bottom:10px}
 .tk-pie span{font-size:11px;line-height:1.55;color:rgba(27,27,25,.5);display:block}
 @media(max-width:1000px){.bk aside{position:static}.tk-wrap{margin-bottom:16px}}
 @media(prefers-reduced-motion:reduce){.tk-cuerpo dd.sella{animation:none}}
+
+/* horas ocupadas y precios */
+.slot.ocu{color:var(--ink3);border-color:transparent;background:transparent;cursor:not-allowed;
+  text-decoration:line-through;text-decoration-thickness:1.4px;text-decoration-color:rgba(21,33,31,.45)}
+.slot.ocu:hover{border-color:transparent}
+.opt em{font-style:normal;font-weight:700;color:var(--tur-d);margin-left:9px}
+.opt.on em{color:var(--lima)}
+.aviso-p{font-size:12.5px;color:var(--ink3);margin:10px 0 0}
+.paso-n i{font-style:normal;font-weight:500;color:var(--ink3);letter-spacing:0;text-transform:none}
+.tk-cuerpo .tot{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  border-top:1.3px dashed rgba(27,27,25,.26);margin-top:12px;padding-top:12px}
+.tk-cuerpo .tot dt{margin-bottom:0}
+.tk-cuerpo .tot dd{font-size:19px;font-weight:700}

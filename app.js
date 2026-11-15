@@ -83,7 +83,16 @@ if(hr&&H[hoyw])hr.classList.add('now');
 /* reserva */
 var form=$('[data-form]');
 if(form){
-  var sel={serv:'Fisioterapia, primera visita',pro:'Me da igual',dia:'',hora:'',ymd:''};
+  var sel={serv:'Fisioterapia, primera visita',precio:'40 \u20ac',pro:'Me da igual',dia:'',hora:'',ymd:'',dist:0};
+  /* agenda de muestra: reparto estable de huecos ocupados por dia y hora */
+  function ocupado(ymd,min,dist){
+    var t=ymd+'#'+min,h=2166136261;
+    for(var i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,16777619)>>>0}
+    var r=(h%10000)/10000, base=dist<=1?.66:dist<=3?.52:dist<=7?.38:.22;
+    if(min>=960)base+=.10;
+    if(min>=600&&min<720)base+=.04;
+    return r<Math.min(base,.86);
+  }
   function pinta(k){
     var b=$('[data-r="'+k+'"]');if(!b)return;
     var v=sel[k]||'',antes=b.textContent;
@@ -92,13 +101,16 @@ if(form){
     if(v&&v!==antes&&!MENOS){b.classList.remove('sella');void b.offsetWidth;b.classList.add('sella')}
   }
 
+  pinta('precio');
   ['serv','pro'].forEach(function(k){
     var g=$('[data-g="'+k+'"]');if(!g)return;
     $$('button',g).forEach(function(b){
       b.addEventListener('click',function(){
         $$('button',g).forEach(function(x){x.classList.remove('on')});
-        b.classList.add('on');sel[k]=b.textContent.trim();pinta(k);
-        if(k==='serv')horas();
+        b.classList.add('on');
+        sel[k]=b.dataset.n||b.textContent.trim();
+        if(k==='serv'){sel.precio=b.dataset.p||'';pinta('precio');horas()}
+        pinta(k);
       });
     });
     pinta(k);
@@ -114,12 +126,12 @@ if(form){
     if(!H[wd])continue;
     var b=document.createElement('button');
     b.type='button';b.className='day';
-    b.dataset.ymd=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+    b.dataset.ymd=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();b.dataset.dist=i;
     b.dataset.lbl=(i===0?'hoy':(i===1?'mañana':DIAS[wd]))+' '+d.getDate()+' de '+MESL[d.getMonth()];
     b.innerHTML='<small>'+DL[wd]+'</small><b>'+d.getDate()+'</b><i>'+MES[d.getMonth()]+'</i>';
     b.addEventListener('click',function(){
       $$('.day',days).forEach(function(x){x.classList.remove('on')});
-      this.classList.add('on');sel.dia=this.dataset.lbl;sel.ymd=this.dataset.ymd;
+      this.classList.add('on');sel.dia=this.dataset.lbl;sel.ymd=this.dataset.ymd;sel.dist=+this.dataset.dist;
       pinta('dia');horas();
     });
     days.appendChild(b);
@@ -133,16 +145,20 @@ if(form){
     var paso=(sel.serv.indexOf('Pilates')===0)?60:30;
     var tramos=[[540,840],[960,1200]],ahora=new Date();
     var hoyYmd=ahora.getFullYear()+'-'+(ahora.getMonth()+1)+'-'+ahora.getDate();
-    var lim=(sel.ymd===hoyYmd)?(ahora.getHours()*60+ahora.getMinutes()+90):-1;
+    var lim=(sel.ymd===hoyYmd)?(ahora.getHours()*60+ahora.getMinutes()+90):-1,libres=0;
     tramos.forEach(function(t){
       for(var m=t[0];m+paso<=t[1];m+=paso){
         if(m<lim)continue;
-        var b=document.createElement('button');
-        b.type='button';b.className='slot';b.textContent=hhmm(m);
-        b.addEventListener('click',function(){
-          $$('.slot',cont).forEach(function(x){x.classList.remove('on')});
-          this.classList.add('on');sel.hora=this.textContent;pinta('hora');
-        });
+        var b=document.createElement('button'),oc=ocupado(sel.ymd,m,sel.dist);
+        b.type='button';b.className='slot'+(oc?' ocu':'');b.textContent=hhmm(m);
+        if(oc){b.disabled=true;b.title='Ocupado';b.setAttribute('aria-label',hhmm(m)+', ocupado')}
+        else{
+          libres++;
+          b.addEventListener('click',function(){
+            $$('.slot',cont).forEach(function(x){x.classList.remove('on')});
+            this.classList.add('on');sel.hora=this.textContent;pinta('hora');
+          });
+        }
         cont.appendChild(b);
       }
     });
@@ -158,7 +174,7 @@ if(form){
     if(!n){alert('Dinos tu nombre para poder darte la cita.');form.elements.n.focus();return}
     if(!t){alert('Necesitamos un teléfono para confirmarte la cita.');form.elements.t.focus();return}
     var txt='Hola, quería pedir cita en FisioAvanza.\n\n'+
-      'Tratamiento: '+sel.serv+'\n'+
+      'Tratamiento: '+sel.serv+(sel.precio?(' ('+sel.precio+')'):'')+'\n'+
       'Con: '+sel.pro+'\n'+
       'Día: '+sel.dia+'\n'+
       'Hora: '+sel.hora+'\n\n'+
