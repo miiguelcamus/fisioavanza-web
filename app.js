@@ -173,8 +173,18 @@ if(form){
     if(!sel.hora){alert('Elige una hora para tu cita.');return}
     if(!n){alert('Dinos tu nombre para poder darte la cita.');form.elements.n.focus();return}
     if(!t){alert('Necesitamos un teléfono para confirmarte la cita.');form.elements.t.focus();return}
+    /* 1 · queda registrada y le llega el aviso al centro por correo */
+    if(window.FA_API){
+      try{
+        fetch(window.FA_API,{method:'POST',keepalive:true,
+          headers:{'Content-Type':'text/plain;charset=utf-8'},
+          body:JSON.stringify({servicio:sel.serv,precio:sel.precio,profesional:sel.pro,
+            dia:sel.dia,hora:sel.hora,nombre:n,telefono:t,motivo:m})}).catch(function(){});
+      }catch(err){}
+    }
+    /* 2 · y al paciente se le abre WhatsApp con el mensaje escrito */
     var txt='Hola, quería pedir cita en FisioAvanza.\n\n'+
-      'Tratamiento: '+sel.serv+(sel.precio?(' ('+sel.precio+')'):'')+'\n'+
+      'Tratamiento: '+sel.serv+(sel.precio?(' · '+sel.precio):'')+'\n'+
       'Con: '+sel.pro+'\n'+
       'Día: '+sel.dia+'\n'+
       'Hora: '+sel.hora+'\n\n'+
