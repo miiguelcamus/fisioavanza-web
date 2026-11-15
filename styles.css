@@ -324,37 +324,37 @@ footer li{margin-bottom:10px}
 
 /* 2 · estratos de tejido */
 .c2{background:repeating-linear-gradient(178.4deg,
-    rgba(4,43,40,.060) 0 1px,
-    rgba(4,43,40,0)    1px 6px,
-    rgba(4,43,40,.028) 6px 7px,
-    rgba(4,43,40,0)    7px 13px,
-    rgba(10,117,112,.040) 13px 14px,
-    rgba(4,43,40,0)    14px 26px);
+    rgba(4,43,40,.040) 0 1px,
+    rgba(4,43,40,0)    1px 8px,
+    rgba(4,43,40,.016) 8px 9px,
+    rgba(4,43,40,0)    9px 17px,
+    rgba(10,117,112,.024) 17px 18px,
+    rgba(4,43,40,0)    18px 34px);
   -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 14%,#000 70%,transparent 100%);
   mask-image:linear-gradient(180deg,transparent 0,#000 14%,#000 70%,transparent 100%)}
 
 /* 3 · arcos de recorrido */
-.c3{background-repeat:no-repeat;background-position:52% 26%;background-size:150% auto;opacity:.85;
+.c3{background-repeat:no-repeat;background-position:52% 26%;background-size:150% auto;opacity:.5;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 760'%3E%3Cg fill='none' stroke='%230a7570' stroke-width='1.1'%3E%3Cpath d='M-140 700 A 820 820 0 0 1 1340 700' stroke-opacity='.13'/%3E%3Cpath d='M40 700 A 640 640 0 0 1 1160 700' stroke-opacity='.10'/%3E%3Cpath d='M220 700 A 460 460 0 0 1 980 700' stroke-opacity='.08'/%3E%3Cpath d='M400 700 A 280 280 0 0 1 800 700' stroke-opacity='.06'/%3E%3C/g%3E%3C/svg%3E")}
 
 /* 4 · grano: quita el plano vectorial */
-.c4{opacity:.05;mix-blend-mode:multiply;inset:0;
+.c4{opacity:.042;mix-blend-mode:multiply;inset:0;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 /* ── goniómetro: abre su recorrido al cargar ── */
-.gonio{position:absolute;right:clamp(-70px,-3vw,0px);bottom:-46px;width:min(54vw,640px);z-index:1;pointer-events:none}
-.gonio .ej{fill:none;stroke:rgba(255,255,255,.26);stroke-width:1.1}
-.gonio .tk{stroke:rgba(255,255,255,.3);stroke-width:1.1}
-.gonio .rad{fill:none;stroke:var(--lima);stroke-width:2;stroke-opacity:.95;stroke-linecap:round;
-  transform-box:fill-box;transform-origin:0% 100%}
-.gonio .arc{fill:none;stroke:var(--lima);stroke-width:3;stroke-linecap:round;stroke-opacity:.9;
-  pathLength:1;stroke-dasharray:1;stroke-dashoffset:1}
+.gonio{position:absolute;right:clamp(8px,3vw,54px);bottom:clamp(74px,11vh,132px);width:min(40vw,400px);z-index:1;pointer-events:none}
+.gonio .ej{fill:none;stroke:rgba(255,255,255,.3);stroke-width:1.2;stroke-dasharray:3 5}
+.gonio .tk{stroke:var(--lima);stroke-opacity:.5;stroke-width:1.4}
+.gonio .rad{fill:none;stroke:var(--lima);stroke-width:2.2;stroke-opacity:.85;stroke-linecap:round;
+  transform-origin:40px 260px}
+.gonio .arc{fill:none;stroke:var(--lima);stroke-width:3.4;stroke-linecap:round;stroke-dasharray:0 360}
 .gonio .hub{fill:var(--lima)}
-.gonio .deg{fill:rgba(255,255,255,.72);font:600 13px Archivo,sans-serif;letter-spacing:.02em}
-.on-load .gonio .arc{animation:trazo 1.45s .45s cubic-bezier(.2,.85,.25,1) forwards}
-.on-load .gonio .rad{animation:barrido 1.45s .45s cubic-bezier(.2,.85,.25,1) forwards}
-.on-load .gonio .deg{opacity:0;animation:aparece .6s 1.5s ease forwards}
-@keyframes trazo{to{stroke-dashoffset:0}}
+.gonio .deg{fill:var(--lima);font:600 15px Archivo,sans-serif;letter-spacing:.01em}
+.gonio .deg tspan{fill:rgba(255,255,255,.6);font-size:11.5px;font-weight:500}
+.on-load .gonio .arc{animation:trazo 1.5s .5s cubic-bezier(.2,.85,.25,1) forwards}
+.on-load .gonio .rad{animation:barrido 1.5s .5s cubic-bezier(.2,.85,.25,1) forwards}
+.on-load .gonio .deg{opacity:0;animation:aparece .55s 1.65s ease forwards}
+@keyframes trazo{to{stroke-dasharray:54 360}}
 @keyframes barrido{from{transform:rotate(0deg)}to{transform:rotate(-54deg)}}
 @keyframes aparece{to{opacity:1}}
 
@@ -373,13 +373,13 @@ footer li{margin-bottom:10px}
 
 @media (prefers-reduced-motion:reduce){
   .hcon>*,[data-rv]>*{opacity:1!important;transform:none!important;animation:none!important}
-  .gonio .arc{stroke-dashoffset:0;animation:none}
+  .gonio .arc{stroke-dasharray:54 360;animation:none}
   .gonio .rad{transform:rotate(-54deg);animation:none}
   .gonio .deg{opacity:1;animation:none}
   .capas .c{transform:none!important}
   *{transition-duration:.01ms!important}
 }
 @media(max-width:700px){
-  .gonio{width:86vw;right:-26vw;bottom:-30px;opacity:.55}
+  .gonio{width:64vw;right:6px;bottom:96px;opacity:.75}
   .c2{background-size:auto}
 }
