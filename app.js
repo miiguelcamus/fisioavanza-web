@@ -45,53 +45,6 @@ var MENOS=matchMedia('(prefers-reduced-motion: reduce)').matches;
   nodos.forEach(function(g){io.observe(g)});
 })();
 
-/* raquis: una vertebra por seccion */
-(function(){
-  if(innerWidth<1100)return;
-  var secs=[].slice.call(document.querySelectorAll('section')).filter(function(s){
-    return s.offsetHeight>160;
-  });
-  if(secs.length<3)return;
-  var nav=document.createElement('nav');
-  nav.className='raquis';nav.setAttribute('aria-label','Secciones de la página');
-  var eje=document.createElement('div');eje.className='rq-eje';nav.appendChild(eje);
-  var mk=document.createElement('div');mk.className='rq-mk';nav.appendChild(mk);
-  var vts=[];
-  secs.forEach(function(sec,i){
-    if(!sec.id)sec.id='s'+i;
-    var t=sec.getAttribute('data-s');
-    if(!t){var h=sec.querySelector('h1,h2');t=h?h.textContent.trim():'Sección '+(i+1)}
-    if(t.length>20)t=t.slice(0,19).replace(/[\s,.;:]+$/,'')+'…';
-    var b=document.createElement('button');
-    b.type='button';b.className='vt';b.setAttribute('aria-label','Ir a '+t);
-    b.innerHTML='<span>'+t.replace(/</g,'&lt;')+'</span>';
-    b.addEventListener('click',function(){
-      var y=sec.getBoundingClientRect().top+scrollY-(sec.classList.contains('hero')?0:74);
-      scrollTo({top:Math.max(0,y),behavior:MENOS?'auto':'smooth'});
-    });
-    nav.appendChild(b);vts.push(b);
-  });
-  document.body.appendChild(nav);
-  document.documentElement.classList.add('rq');
-  function marca(i){
-    vts.forEach(function(v,j){v.classList.toggle('act',j===i)});
-    var v=vts[i];if(!v)return;
-    var r=v.getBoundingClientRect(),n=nav.getBoundingClientRect();
-    mk.style.top=(r.top-n.top)+'px';mk.style.height=r.height+'px';
-  }
-  if('IntersectionObserver' in window){
-    var visto={};
-    var io2=new IntersectionObserver(function(es){
-      es.forEach(function(e){visto[secs.indexOf(e.target)]=e.isIntersecting?e.intersectionRatio:0});
-      var mejor=-1,max=0;
-      Object.keys(visto).forEach(function(k){if(visto[k]>max){max=visto[k];mejor=+k}});
-      if(mejor>=0)marca(mejor);
-    },{threshold:[0,.15,.4,.7],rootMargin:'-74px 0px -40% 0px'});
-    secs.forEach(function(s){io2.observe(s)});
-  }
-  marca(0);
-})();
-
 /* menu movil */
 var bg=$('.burger'),mm=$('.mm');
 if(bg&&mm){
